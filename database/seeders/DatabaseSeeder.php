@@ -24,6 +24,16 @@ class DatabaseSeeder extends Seeder
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
+        DB::table('events')->insert([
+            'organizer_id' => 1,
+            'title' => 'Test event',
+            'description' => 'This is test description',
+            'price' => 'free',
+            'theme' => 'test',
+            'features' => 'workshop',
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+        ]);
     }
 }
 
