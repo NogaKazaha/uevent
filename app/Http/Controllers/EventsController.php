@@ -6,7 +6,10 @@ use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Events;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewEventNotification;
 
 class EventsController extends Controller {
     public function index() {
@@ -42,9 +45,19 @@ class EventsController extends Controller {
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ];
             $createEvent = Events::create($creditianals);
+            $details_api = [
+                'title' => 'One of organizers has created new event',
+                'body' => 'Your link to check event: http://127.0.0.1:8000/api/events/show/'.$createEvent->id
+            ];
+            $users = DB::table('organizers_subs')->where('organizers_id', $organizer)->get(['user_id']);
+            foreach($users as $user_id) {
+                $userInfo = User::find($user_id->user_id);
+                Mail::to($userInfo->email)->send(new NewEventNotification($details_api));
+            }
             return response([
                 'message' => 'Event created',
-                'event' => $createEvent
+                'event' => $createEvent,
+
             ]);
         }
     }
@@ -84,6 +97,7 @@ class EventsController extends Controller {
             if($user->id == $event->organizer_id) {
                 $delete = Events::find($event_id);
                 $delete->delete();
+                DB::table('events_subs')->where('event_id', $event_id)->delete();
                 return response([
                     'message' => 'Event deleted'
                 ]);

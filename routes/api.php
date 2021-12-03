@@ -22,6 +22,21 @@ Route::prefix('subs')->group(function() {
     Route::post('/subscribe/organizer/{event_id}', 'App\Http\Controllers\SubscriptionsController@subscribeToOrganizer');
     Route::get('/users/{event_id}', 'App\Http\Controllers\SubscriptionsController@showSubscribedUsers');
     Route::get('/organizer/{event_id}', 'App\Http\Controllers\SubscriptionsController@showOrganizerEvents');
+    Route::get('/my', 'App\Http\Controllers\SubscriptionsController@showMySubs');
+});
+Route::prefix('comments')->group(function() {
+    Route::get('/show_all', 'App\Http\Controllers\CommentsController@index');
+    Route::get('/show/{id}', 'App\Http\Controllers\CommentsController@show');
+    Route::get('/event/{event_id}', 'App\Http\Controllers\CommentsController@showAllForEvent');
+    Route::post('/create/{event_id}', 'App\Http\Controllers\CommentsController@store');
+    Route::post('/update/{id}', 'App\Http\Controllers\CommentsController@update');
+    Route::delete('/delete/{id}', 'App\Http\Controllers\CommentsController@destroy');
+});
+Route::prefix('users')->group(function() {
+    Route::get('/show_all', 'App\Http\Controllers\UsersController@index');
+    Route::get('/show/{id}', 'App\Http\Controllers\UsersController@show');
+    Route::post('/update/{id}', 'App\Http\Controllers\UsersController@update');
+    Route::delete('/delete/{id}', 'App\Http\Controllers\UsersController@destroy');
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

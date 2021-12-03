@@ -31,9 +31,21 @@ class SubscriptionsController extends Controller
                     'message' => 'You subscribed to this event'
                 ]);
             } else {
-                return response([
-                    'message' => 'You can\'t subscribe to this event'
-                ]);
+                if($request->input('status') == true) {
+                    DB::table('events_subs')->insert([
+                        'event_id' => $event_id,
+                        'user_id' => $user->id,
+                        'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                        'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                    ]);
+                    return response([
+                        'message' => 'You subscribed to this event'
+                    ]);
+                } else {
+                    return response([
+                        'message' => 'You can\'t subscribe to this event'
+                    ]);
+                }  
             }
         }
     }
@@ -71,5 +83,22 @@ class SubscriptionsController extends Controller
         $organizer_id = DB::table('events')->where('id', $event_id)->value('organizer_id');
         $events = DB::table('events')->where('organizer_id', $organizer_id)->get();
         return $events;
+    }
+    public function showMySubs(Request $request) {
+        $user = $this->checkLogIn($request);
+        if(!$user) {
+            return response([
+                'message' => 'User is not logged in'
+            ]);
+        } else {
+            $user = JWTAuth::toUser(JWTAuth::getToken());
+            $events = [];
+            $events_ids = DB::table('events_subs')->where('user_id', $user->id)->pluck('event_id');
+            foreach($events_ids as $event_id) {
+                $add = DB::table('events')->where('id', $event_id)->get();
+                array_push($events, $add[0]);
+            }
+            return $events;
+        }
     }
 }
