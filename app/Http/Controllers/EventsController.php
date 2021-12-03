@@ -71,7 +71,7 @@ class EventsController extends Controller {
         else {
             $user = JWTAuth::toUser(JWTAuth::getToken());
             $event = Events::find($event_id);
-            if($user->id == $event->organizer_id) {
+            if($user->id == $event->organizer_id || $this->checkAdmin($request)) {
                 $update = Events::find($event_id);
                 $update->update($request->all());
                 return response([
@@ -94,7 +94,7 @@ class EventsController extends Controller {
         } else {
             $user = JWTAuth::toUser(JWTAuth::getToken());
             $event = Events::find($event_id);
-            if($user->id == $event->organizer_id) {
+            if($user->id == $event->organizer_id || $this->checkAdmin($request)) {
                 $delete = Events::find($event_id);
                 $delete->delete();
                 DB::table('events_subs')->where('event_id', $event_id)->delete();

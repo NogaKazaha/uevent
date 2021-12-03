@@ -57,7 +57,7 @@ class CommentsController extends Controller
         else {
             $user = JWTAuth::toUser(JWTAuth::getToken());
             $comment = Comments::find($comment_id);
-            if($user->id == $comment->user_id) {
+            if($user->id == $comment->user_id || $this->checkAdmin($request)) {
                 $update = Comments::find($comment_id);
                 $update->update($request->all());
                 return response([
@@ -80,7 +80,7 @@ class CommentsController extends Controller
         } else {
             $user = JWTAuth::toUser(JWTAuth::getToken());
             $comment = Comments::find($comment_id);
-            if($user->id == $comment->user_id) {
+            if($user->id == $comment->user_id || $this->checkAdmin($request)) {
                 $delete = Comments::find($comment_id);
                 $delete->delete();
                 return response([
