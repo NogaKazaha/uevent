@@ -101,4 +101,26 @@ class SubscriptionsController extends Controller
             return $events;
         }
     }
+    public function unsubscribeFromEvent(Request $request, $event_id) {
+        $user = $this->checkLogIn($request);
+        if(!$user) {
+            return response([
+                'message' => 'User is not logged in'
+            ]);
+        } else {
+            $user = JWTAuth::toUser(JWTAuth::getToken());
+            $event = DB::table('events_subs')->where('event_id', $event_id)->where('user_id', $user->id);
+            if(!$event) {
+                return response([
+                    'message' => 'No such subscription'
+                ]);
+            } else {
+                $event->delete();
+                return response([
+                    'message' => 'You unsubscribed from event'
+                ]);
+            }
+            
+        }
+    }
 }

@@ -23,6 +23,7 @@ Route::prefix('subs')->group(function() {
     Route::get('/users/{event_id}', 'App\Http\Controllers\SubscriptionsController@showSubscribedUsers');
     Route::get('/organizer/{event_id}', 'App\Http\Controllers\SubscriptionsController@showOrganizerEvents');
     Route::get('/my', 'App\Http\Controllers\SubscriptionsController@showMySubs');
+    Route::delete('/delete/{event_id}', 'App\Http\Controllers\SubscriptionsController@unsubscribeFromEvent');
 });
 Route::prefix('comments')->group(function() {
     Route::get('/show_all', 'App\Http\Controllers\CommentsController@index');
