@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Events extends Model
 {
+    use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
     protected $fillable = [
         'organizer_id',

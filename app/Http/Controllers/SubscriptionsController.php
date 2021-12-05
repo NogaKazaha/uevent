@@ -20,6 +20,11 @@ class SubscriptionsController extends Controller
             $event = Events::find($event_id);
             $price = $event->price;
             $user = JWTAuth::toUser(JWTAuth::getToken());
+            if(DB::table('events_subs')->where('event_id', $event_id)->where('user_id', $user->id)) {
+                return response([
+                    'message' => 'You can\'t subscribe to this event again'
+                ]);
+            }
             if($price == 'free') {
                 DB::table('events_subs')->insert([
                     'event_id' => $event_id,
