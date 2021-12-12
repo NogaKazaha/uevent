@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
             'price' => 'free',
             'theme' => 'test',
             'features' => 'workshop',
+            'place' => 'вулиця Кирпичова, 2, Харків, Харківська область',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
@@ -45,4 +46,3 @@ class DatabaseSeeder extends Seeder
         ]);
     }
 }
-

@@ -12,7 +12,9 @@ class EventsCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
-    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation { destroy as traitDestroy; }
+    use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation {
+        destroy as traitDestroy;
+    }
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
     public function setup()
     {
@@ -29,6 +31,7 @@ class EventsCrudController extends CrudController
         CRUD::column('price');
         CRUD::column('theme');
         CRUD::column('features');
+        CRUD::column('place');
     }
     protected function setupShowOperation()
     {
@@ -39,6 +42,7 @@ class EventsCrudController extends CrudController
         CRUD::column('price');
         CRUD::column('theme');
         CRUD::column('features');
+        CRUD::column('place');
     }
     protected function setupCreateOperation()
     {
@@ -53,6 +57,7 @@ class EventsCrudController extends CrudController
         CRUD::modifyField('features', [
             'type' => 'enum',
         ]);
+        CRUD::column('place');
     }
     protected function setupUpdateOperation()
     {

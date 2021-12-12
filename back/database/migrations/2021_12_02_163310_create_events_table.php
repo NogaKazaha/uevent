@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateEventsTable extends Migration
 {
-    public function up() {
+    public function up()
+    {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('organizer_id');
@@ -15,11 +16,13 @@ class CreateEventsTable extends Migration
             $table->string('price', 256);
             $table->string('theme', 64);
             $table->enum('features', ['conference', 'lectures', 'workshop', 'fest']);
+            $table->string('place', 512);
             $table->foreign('organizer_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('events');
     }
 }
