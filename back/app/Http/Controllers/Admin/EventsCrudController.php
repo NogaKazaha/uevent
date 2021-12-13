@@ -32,6 +32,7 @@ class EventsCrudController extends CrudController
         CRUD::column('theme');
         CRUD::column('features');
         CRUD::column('place');
+        CRUD::column('date');
     }
     protected function setupShowOperation()
     {
@@ -43,6 +44,7 @@ class EventsCrudController extends CrudController
         CRUD::column('theme');
         CRUD::column('features');
         CRUD::column('place');
+        CRUD::column('date');
     }
     protected function setupCreateOperation()
     {
@@ -58,6 +60,7 @@ class EventsCrudController extends CrudController
             'type' => 'enum',
         ]);
         CRUD::column('place');
+        CRUD::column('date');
     }
     protected function setupUpdateOperation()
     {

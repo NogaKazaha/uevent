@@ -17,6 +17,7 @@ class CreateEventsTable extends Migration
             $table->string('theme', 64);
             $table->enum('features', ['conference', 'lectures', 'workshop', 'fest']);
             $table->string('place', 512);
+            $table->dateTime('date');
             $table->foreign('organizer_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });

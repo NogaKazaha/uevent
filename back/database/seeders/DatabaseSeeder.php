@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             'theme' => 'test',
             'features' => 'workshop',
             'place' => 'вулиця Кирпичова, 2, Харків, Харківська область',
+            'date' => '2022-01-01',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);

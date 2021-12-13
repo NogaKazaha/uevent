@@ -29,7 +29,7 @@ class EventsController extends Controller
         if (!$user) {
             return response([
                 'message' => 'User is not logged in'
-            ]);
+            ], 401);
         } else {
             $user = JWTAuth::toUser(JWTAuth::getToken());
             $organizer = $user->id;
@@ -39,6 +39,7 @@ class EventsController extends Controller
             $theme = $request->input('theme');
             $features = $request->input('features');
             $place = $request->input('place');
+            $date = $request->input('date');
             $creditianals = [
                 'organizer_id' => $organizer,
                 'title' => $title,
@@ -47,6 +48,7 @@ class EventsController extends Controller
                 'theme' => $theme,
                 'features' => $features,
                 'place' => $place,
+                'date' => $date,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ];
@@ -63,8 +65,7 @@ class EventsController extends Controller
             return response([
                 'message' => 'Event created',
                 'event' => $createEvent,
-
-            ]);
+            ], 200);
         }
     }
     public function update(Request $request, $event_id)
@@ -73,7 +74,7 @@ class EventsController extends Controller
         if (!$user) {
             return response([
                 'message' => 'User is not logged in'
-            ]);
+            ], 401);
         } else {
             $user = JWTAuth::toUser(JWTAuth::getToken());
             $event = Events::find($event_id);
@@ -83,11 +84,11 @@ class EventsController extends Controller
                 return response([
                     'message' => 'Event updated',
                     'event' => $update
-                ]);
+                ], 200);
             } else {
                 return response([
                     'message' => 'You can not update this event'
-                ]);
+                ], 400);
             }
         }
     }
@@ -97,7 +98,7 @@ class EventsController extends Controller
         if (!$user) {
             return response([
                 'message' => 'User is not logged in'
-            ]);
+            ], 401);
         } else {
             $user = JWTAuth::toUser(JWTAuth::getToken());
             $event = Events::find($event_id);
@@ -107,11 +108,11 @@ class EventsController extends Controller
                 DB::table('events_subs')->where('event_id', $event_id)->delete();
                 return response([
                     'message' => 'Event deleted'
-                ]);
+                ], 200);
             } else {
                 return response([
                     'message' => 'You can not delete this event'
-                ]);
+                ], 400);
             }
         }
     }

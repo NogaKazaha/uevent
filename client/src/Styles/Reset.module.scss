@@ -1,0 +1,53 @@
+.reset {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  h1 {
+    text-align: center;
+  }
+  .content {
+    margin-top: 100px;
+    @extend .reset;
+    flex-direction: row;
+    justify-content: center;
+    .inputs {
+      align-items: center;
+      margin-right: 40px;
+      @extend .reset;
+      input {
+        height: 40px;
+        width: 600px;
+        margin-bottom: 20px;
+        border-radius: 20px;
+      }
+      input::placeholder {
+        font-family: 'Satisfy', cursive;
+        padding: 20px 10px;
+      }
+      button {
+        font-family: 'Satisfy', cursive;
+        padding: 10px 30px;
+        border-radius: 10px;
+        border: unset;
+        background-color: rgb(241, 241, 241);
+        margin-bottom: 20px;
+      }
+      button:hover {
+        background-color: darken($color: rgb(241, 241, 241), $amount: 5);
+      }
+      span {
+        font-size: 20px;
+      }
+      a {
+        text-decoration: none;
+        color: rgb(112, 112, 112);
+      }
+    }
+    .svg {
+      svg {
+        height: 200px;
+        width: 200px;
+      }
+    }
+  }
+}

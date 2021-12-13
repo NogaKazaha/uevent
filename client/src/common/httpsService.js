@@ -1,7 +1,6 @@
-export const url = ''; // server base url
+const baseUrl = ''; // server base url
 
-export const post = (url, data) => {
-  // fetch request or smth
+export const post = (url, data, headers) => {
 }
 
 export const update = (url, data) => {

@@ -1,0 +1,31 @@
+.welcome {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .content {
+    @extend .welcome;
+    align-items: center;
+    h1 {
+      margin-bottom: 10px;
+      font-size: 40px;
+    }
+    svg {
+      @extend h1;
+    }
+    span {
+      @extend h1;
+      font-size: 20px;
+    }
+    .button {
+      margin-top: 20px;
+      padding: 10px 30px;
+      border-radius: 10px;
+      text-decoration: none;
+      color: black;
+      background-color: rgb(241, 241, 241);
+    }
+    .button:hover {
+      background-color: darken($color: rgb(241, 241, 241), $amount: 5);
+    }
+  }
+}

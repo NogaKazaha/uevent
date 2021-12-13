@@ -10,24 +10,28 @@ use Carbon\Carbon;
 
 class CommentsController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $allComments = Comments::all();
         return $allComments;
     }
-    public function show($id) {
+    public function show($id)
+    {
         $showComment = Comments::find($id);
         return $showComment;
     }
-    public function showAllForEvent($event_id) {
+    public function showAllForEvent($event_id)
+    {
         $showComment = DB::table('comments')->where('event_id', $event_id)->get();
         return $showComment;
     }
-    public function store(Request $request, $event_id) {
+    public function store(Request $request, $event_id)
+    {
         $user = $this->checkLogIn($request);
-        if(!$user) {
+        if (!$user) {
             return response([
                 'message' => 'User is not logged in'
-            ]);
+            ], 401);
         } else {
             $user = JWTAuth::toUser(JWTAuth::getToken());
             $title = $request->input('title');
@@ -44,52 +48,53 @@ class CommentsController extends Controller
             return response([
                 'message' => 'Comment created',
                 'comment' => $createComment
-            ]);
+            ], 200);
         }
     }
-    public function update(Request $request, $comment_id) {
+    public function update(Request $request, $comment_id)
+    {
         $user = $this->checkLogIn($request);
-        if(!$user) {
+        if (!$user) {
             return response([
                 'message' => 'User is not logged in'
-            ]);
-        }
-        else {
+            ], 401);
+        } else {
             $user = JWTAuth::toUser(JWTAuth::getToken());
             $comment = Comments::find($comment_id);
-            if($user->id == $comment->user_id || $this->checkAdmin($request)) {
+            if ($user->id == $comment->user_id || $this->checkAdmin($request)) {
                 $update = Comments::find($comment_id);
                 $update->update($request->all());
                 return response([
                     'message' => 'Comment updated',
                     'comment' => $update
-                ]);
+                ], 200);
             } else {
                 return response([
                     'message' => 'You can not update this comment'
-                ]);
+                ], 400);
             }
         }
     }
-    public function destroy(Request $request, $comment_id) {
+    public function destroy(Request $request, $comment_id)
+    {
         $user = $this->checkLogIn($request);
-        if(!$user) {
+        if (!$user) {
             return response([
                 'message' => 'User is not logged in'
-            ]);
+            ], 401);
         } else {
             $user = JWTAuth::toUser(JWTAuth::getToken());
             $comment = Comments::find($comment_id);
-            if($user->id == $comment->user_id || $this->checkAdmin($request)) {
+            if ($user->id == $comment->user_id || $this->checkAdmin($request)) {
                 $delete = Comments::find($comment_id);
                 $delete->delete();
                 return response([
                     'message' => 'Comment deleted'
-                ]);
+                ], 200);
             } else {
                 return response([
                     'message' => 'You can not delete this comment'
-                ]);
+                ], 400);
             }
         }
     }

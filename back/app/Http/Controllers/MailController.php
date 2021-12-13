@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Mail;
 
 class MailController extends Controller
 {
-    public function sendEmail() {
+    public function sendEmail()
+    {
         $details = [
             'title' => 'Password Reset Mail',
             'body' => 'Testing'

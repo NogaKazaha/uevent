@@ -15,6 +15,8 @@ class Events extends Model
         'description',
         'price',
         'theme',
-        'features'
+        'features',
+        'place',
+        'date'
     ];
 }
