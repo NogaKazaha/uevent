@@ -8,6 +8,7 @@ import ResetPasswordToken from './Pages/ResetPass/ResetPassToken';
 import Settings from './Pages/Settings/UserAccount';
 import Public from './Pages/Public/Public';
 import Events from './Pages/Events/Events';
+import CreateEvent from './Pages/Events/CreateEvent';
 function App() {
   return (
     <BrowserRouter>
@@ -20,6 +21,7 @@ function App() {
         <Route path="/me" exact component={ Settings }/>
         <Route path="/account" exact component={ Public }/>
         <Route path="/events" exact component={ Events }/>
+        <Route path="/event/create" exact component={ CreateEvent }/>
       </Switch>
     </BrowserRouter>
   );

@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             'organizer_id' => 1,
             'title' => 'Test event',
             'description' => 'This is test description',
-            'price' => 'free',
+            'price' => 0,
             'theme' => 'test',
             'features' => 'workshop',
             'place' => 'вулиця Кирпичова, 2, Харків, Харківська область',

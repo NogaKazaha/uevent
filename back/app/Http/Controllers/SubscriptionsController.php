@@ -19,14 +19,20 @@ class SubscriptionsController extends Controller
             ], 401);
         } else {
             $event = Events::find($event_id);
+            if (!$event) {
+                return response([
+                    'message' => 'No such event'
+                ], 400);
+            }
             $price = $event->price;
             $user = JWTAuth::toUser(JWTAuth::getToken());
-            if (DB::table('events_subs')->where('event_id', $event_id)->where('user_id', $user->id)) {
+            $sub_id = DB::table('events_subs')->where('event_id', $event_id)->where('user_id', $user->id)->value('id');
+            if ($sub_id) {
                 return response([
                     'message' => 'You can\'t subscribe to this event again'
                 ], 400);
             }
-            if ($price == 'free') {
+            if ($price == 0) {
                 DB::table('events_subs')->insert([
                     'event_id' => $event_id,
                     'user_id' => $user->id,
@@ -37,7 +43,7 @@ class SubscriptionsController extends Controller
                     'message' => 'You subscribed to this event'
                 ], 200);
             } else {
-                if ($request->input('status') == true) {
+                if ($request->input('status') == 'true') {
                     DB::table('events_subs')->insert([
                         'event_id' => $event_id,
                         'user_id' => $user->id,

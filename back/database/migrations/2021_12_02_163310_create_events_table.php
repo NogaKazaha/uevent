@@ -13,7 +13,7 @@ class CreateEventsTable extends Migration
             $table->unsignedBigInteger('organizer_id');
             $table->string('title', 64);
             $table->string('description', 2048);
-            $table->string('price', 256);
+            $table->bigInteger('price');
             $table->string('theme', 64);
             $table->enum('features', ['conference', 'lectures', 'workshop', 'fest']);
             $table->string('place', 512);
