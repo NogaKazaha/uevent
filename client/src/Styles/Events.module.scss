@@ -1,0 +1,51 @@
+.events {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .outerEvents {
+    display: flex;
+    justify-content: center;
+    .addButton {
+      display: flex;
+      justify-content: center;
+      height: fit-content;
+      margin-bottom: 20px;
+      a {
+        color: black;
+        font-family: "Satisfy", cursive;
+        padding: 10px 30px;
+        border-radius: 10px;
+        border: 1px solid darken($color: rgb(241, 241, 241), $amount: 12);
+        background-color: rgb(241, 241, 241);
+      }
+      a:hover {
+        background-color: darken($color: rgb(241, 241, 241), $amount: 12);
+      }
+    }
+  }
+  .eventsList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .event {
+      width: 95%;
+      background-color: rgb(241, 241, 241);
+      margin-bottom: 20px;
+      padding: 20px 10px;
+      border-radius: 20px;
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+      }
+      .btn {
+        @extend .eventsList;
+        flex-direction: row;
+        div {
+          margin: 0 10px;
+        }
+      }
+    }
+  }
+}

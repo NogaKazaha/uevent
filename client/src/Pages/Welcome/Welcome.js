@@ -9,7 +9,7 @@ import { Event } from '../../Modules/JSX/Event'
 function WelcomePage() {
   const history = useHistory();
   if(Cookies.get('login') == 'true') {
-    history.push('/')
+    history.push('/events')
   }
   return (
     <div className={style.welcome}>
@@ -21,7 +21,7 @@ function WelcomePage() {
           <h1>Find events for yourself with Uevents</h1>
           <Event />
           <span>Here you can find any event you are interested in</span> 
-          <Link to='sign_in' className={style.button}>Join us</Link>
+          <Link to='/sign_up' className={style.button}>Join us</Link>
         </div>
       <Footer />
     </div>

@@ -13,7 +13,7 @@ function Login() {
   const [password , setPassword] = useState("");
   const history = useHistory();
   if(Cookies.get('login') == 'true') {
-    history.push('/events')
+    history.push('/me')
   }
   const handleClick = () => {
     const api = {
@@ -33,10 +33,10 @@ function Login() {
     const promise = toast.promise(login, {
 			loading: "Logging in process",
 			success: (response) => {
-        history.push('/events')
         Cookies.set('login', true)
         Cookies.set('token', response.data.token)
         Cookies.set('user_id', response.data.user_id)
+        history.push('/events')
         return response.data.message
 			},
 			error: (error) => {

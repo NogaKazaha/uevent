@@ -40,6 +40,13 @@ class EventsController extends Controller
             $features = $request->input('features');
             $place = $request->input('place');
             $date = $request->input('date');
+            $date = new Carbon($date);
+            $now = new Carbon();
+            if ($date < $now) {
+                return response([
+                    'message' => 'You can\'t create event in the past',
+                ], 400);
+            }
             $creditianals = [
                 'organizer_id' => $organizer,
                 'title' => $title,
