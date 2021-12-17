@@ -47,6 +47,11 @@ class EventsController extends Controller
                     'message' => 'You can\'t create event in the past',
                 ], 400);
             }
+            if ($price < 0) {
+                return response([
+                    'message' => 'You can\'t create event with price less then 0',
+                ], 400);
+            }
             $creditianals = [
                 'organizer_id' => $organizer,
                 'title' => $title,

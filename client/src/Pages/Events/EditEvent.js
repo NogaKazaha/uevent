@@ -9,15 +9,19 @@ import axios from "axios"
 import Cookies from 'js-cookie';
 import style  from '../../Styles/CreateEvent.module.scss'
 import EventsHeader from '../../Modules/Header/EventsHeader';
+import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 import SimpleMap from '../../Modules/Map/GoogleMap';
-function CreateEvent() {
-  const [value, onChange] = useState(new Date());
-  const [title, setTitle] = useState("")
-  const [description, setDescription] = useState("")
-  const [theme, setTheme] = useState("")
-  const [place, setPlace] = useState("")
-  const [price, setPrice] = useState()
-  const [selectedOptions, setSelectedOptions] = useState();
+function EditEvent() {
+  let [value, onChange] = useState(new Date());
+  let [title, setTitle] = useState("")
+  let [description, setDescription] = useState("")
+  let [theme, setTheme] = useState("")
+  let [place, setPlace] = useState("")
+  let [price, setPrice] = useState()
+  let [selectedOptions, setSelectedOptions] = useState();
+  let [eventData, setEvent] = useState([])
+  const params = useParams();
+  const history = useHistory()
   const options = [
     { value: 'conference', label: 'Conference' },
     { value: 'lectures', label: 'Lectures' },
@@ -27,69 +31,96 @@ function CreateEvent() {
   const handleChange = (option) => {
     setSelectedOptions(option.value);
   }
+  useEffect(() => {
+    const api = {
+			headers: {
+				"Content-Type": "application/json",
+				Accept: "application/json",
+			},
+			url: `http://127.0.0.1:8000/api/events/show/${params.id}`,
+		}
+    axios.get(api.url, api.data, {
+			headers: api.headers,
+		})
+    .then((response) => setEvent(response.data))
+  },[])
   const handleClick = () => {
-    if(title == "" || description == "" || theme == "" || price == null || place == "" || selectedOptions == undefined || value == null) {
-      toast.error("You need to fill in all fields")
+    if(title == "") {
+      title = eventData.title
     }
-    else {
-      const year = value.getFullYear()
-      let month, date, hours, minutes, sec
-      if(value.getMonth() + 1 < 10) {
-        month = '0' + (value.getMonth() + 1)
-      } else {
-        month = value.getMonth() + 1
-      }
-      if(value.getDate() < 10) {
-        date = '0' + value.getDate()
-      } else {
-        date = value.getDate()
-      }
-      if(value.getHours() < 10) {
-        hours = '0' + value.getHours()
-      } else {
-        hours = value.getHours()
-      }
-      if(value.getMinutes() < 10) {
-        minutes = '0' + value.getMinutes()
-      } else {
-        minutes = value.getMinutes()
-      }
-      if(value.getSeconds() < 10) {
-        sec = '0' + value.getSeconds()
-      } else {
-        sec = value.getSeconds()
-      }
-      const newDate = `${year}-${month}-${date} ${hours}:${minutes}:${sec}`
-      const api = {
-        	headers: {
-        		"Content-Type": "application/json",
-        		Accept: "application/json",
-            Authorization: 'Bearer' + Cookies.get('token'),
-        	},
-        	data: {
-        		title: title,
-        		description: description,
-            price: price,
-            theme: theme, 
-            features: selectedOptions,
-            place: place,
-            date: newDate
-        	},
-        	url: `http://127.0.0.1:8000/api/events/create`,
-        }
-        const event = axios.post(api.url, api.data, {
-        	headers: api.headers,
-        })
-        const promise = toast.promise(event, {
-          loading: "Creating event",
-          success: (response) => {
-            return response.data.message
-          },
-          error: (error) => {
-            return error.response.data.message
-          },
-        })    
-    } 
+    if(description == "") {
+      description = eventData.description
+    }
+    if(theme == "") {
+      theme = eventData.theme
+    }
+    if(place == "") {
+      place = eventData.place
+    }
+    if(price == null) {
+      price = eventData.price
+    }
+    if(selectedOptions == undefined) {
+      selectedOptions = eventData.category
+    }
+    const year = value.getFullYear()
+    let month, date, hours, minutes, sec
+    if(value.getMonth() + 1 < 10) {
+      month = '0' + (value.getMonth() + 1)
+    } else {
+      month = value.getMonth() + 1
+    }
+    if(value.getDate() < 10) {
+      date = '0' + value.getDate()
+    } else {
+      date = value.getDate()
+    }
+    if(value.getHours() < 10) {
+      hours = '0' + value.getHours()
+    } else {
+      hours = value.getHours()
+    }
+    if(value.getMinutes() < 10) {
+      minutes = '0' + value.getMinutes()
+    } else {
+      minutes = value.getMinutes()
+    }
+    if(value.getSeconds() < 10) {
+      sec = '0' + value.getSeconds()
+    } else {
+      sec = value.getSeconds()
+    }
+    const newDate = `${year}-${month}-${date} ${hours}:${minutes}:${sec}`
+    const api = {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: 'Bearer' + Cookies.get('token'),
+      },
+      data: {
+        title: title,
+        description: description,
+        price: price,
+        theme: theme, 
+        features: selectedOptions,
+        place: place,
+        date: newDate
+      },
+      url: `http://127.0.0.1:8000/api/events/update/${params.id}`,
+    }
+    const event = axios.patch(api.url, api.data, {
+      headers: api.headers,
+    })
+    const promise = toast.promise(event, {
+      loading: "Updating event",
+        success: (response) => {
+          history.push('/events')
+          return response.data.message
+        },
+        error: (error) => {
+          return error.response.data.message
+        },
+      })     
   }
   return (
     <div>
@@ -123,7 +154,6 @@ function CreateEvent() {
             onChange={(e) => setPrice(e.target.value)}
             required
           />
-          <span className={style.warnign}>If you want to create free event, just put 0</span>
           <input 
             type="text" 
             placeholder="Enter event theme"
@@ -154,6 +184,7 @@ function CreateEvent() {
               value={value}
             />
           </div>
+          <span className={style.warnign}>This time will be used as a new time for event. Check it</span>
           {/* <SimpleMap /> */}
           <button onClick={(e) => handleClick(e.preventDefault())}>Submit</button>
           <Toaster
@@ -171,4 +202,4 @@ function CreateEvent() {
     </div>
   );
 }
-export default CreateEvent;
+export default EditEvent;

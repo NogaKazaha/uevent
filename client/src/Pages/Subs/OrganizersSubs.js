@@ -4,12 +4,12 @@ import { Link, useHistory } from 'react-router-dom'
 import toast, { Toaster } from "react-hot-toast"
 import axios from "axios"
 import Cookies from 'js-cookie';
-import style  from '../../Styles/Events.module.scss'
+import style  from '../../Styles/Public.module.scss'
 import EventsHeader from '../../Modules/Header/EventsHeader';
-import EventsList from './EventsList';
+import OrganizersSubsList from './OrganizersSubsList';
 import ScrollButton from '../../Modules/Buttons/ScrollUp';
-function Events() {
-  const [events, setEvents] = useState([])
+function OrganizersSubs() {
+  const [orgs, setOrgs] = useState([])
   const history = useHistory()
   useEffect(() => {
     if(Cookies.get('login') == 'false' || !Cookies.get('login')) {
@@ -19,13 +19,14 @@ function Events() {
 			headers: {
 				"Content-Type": "application/json",
 				Accept: "application/json",
+        Authorization: 'Bearer' + Cookies.get('token'),
 			},
-			url: `http://127.0.0.1:8000/api/events/show_all`,
+			url: `http://127.0.0.1:8000/api/subs/organizers/show`,
 		}
-    axios.get(api.url, api.data, {
+    axios.post(api.url, api.data, {
 			headers: api.headers,
 		})
-    .then((response) => setEvents(response.data))
+    .then((response) => setOrgs(response.data))
   },[])
   return (
     <div className={style.events}>
@@ -33,20 +34,12 @@ function Events() {
         <title>Events &#8739; La Cronicas</title>
       </Helmet>
       <EventsHeader />
-      <h1>All events</h1>
-      <div className={style.outerEvents}>
-          <div className={style.addButton}>
-            <Link to='/event/create'>
-              Create new event
-            </Link>
-          </div>
-      </div>
+      <h1>Subscribed organizers</h1>
       <div className={style.eventsList}>
-        <EventsList events={events}/>
+        <OrganizersSubsList orgs={orgs}/>
       </div>
       <ScrollButton />
     </div>
-    
   );
 }
-export default Events;
+export default OrganizersSubs;

@@ -6,9 +6,9 @@ import axios from "axios"
 import Cookies from 'js-cookie';
 import style  from '../../Styles/Events.module.scss'
 import EventsHeader from '../../Modules/Header/EventsHeader';
-import EventsList from './EventsList';
+import EventsSubsList from './EventsSubsList';
 import ScrollButton from '../../Modules/Buttons/ScrollUp';
-function Events() {
+function EventsSubs() {
   const [events, setEvents] = useState([])
   const history = useHistory()
   useEffect(() => {
@@ -19,10 +19,11 @@ function Events() {
 			headers: {
 				"Content-Type": "application/json",
 				Accept: "application/json",
+        Authorization: 'Bearer' + Cookies.get('token'),
 			},
-			url: `http://127.0.0.1:8000/api/events/show_all`,
+			url: `http://127.0.0.1:8000/api/subs/my`,
 		}
-    axios.get(api.url, api.data, {
+    axios.post(api.url, api.data, {
 			headers: api.headers,
 		})
     .then((response) => setEvents(response.data))
@@ -33,20 +34,12 @@ function Events() {
         <title>Events &#8739; La Cronicas</title>
       </Helmet>
       <EventsHeader />
-      <h1>All events</h1>
-      <div className={style.outerEvents}>
-          <div className={style.addButton}>
-            <Link to='/event/create'>
-              Create new event
-            </Link>
-          </div>
-      </div>
+      <h1>Subscribed events</h1>
       <div className={style.eventsList}>
-        <EventsList events={events}/>
+        <EventsSubsList events={events}/>
       </div>
       <ScrollButton />
     </div>
-    
   );
 }
-export default Events;
+export default EventsSubs;

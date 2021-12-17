@@ -14,27 +14,25 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public function checkLogIn(Request $request)
     {
-        $token = explode(" ", $request->header("Authorization"))[1];
-        // $token = $request->header("Authorization");
-        // $token = trim($token, '\"');
+        // $token = explode(" ", $request->header("Authorization"))[1];
+        $token = $request->header("Authorization");
+        $token = trim($token, '\"');
         $user = DB::table('users')->where("remember_token", $token);
-        if($user) {
+        if ($user) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
     public function checkAdmin(Request $request)
     {
-        $token = explode(" ", $request->header("Authorization"))[1];
-        // $token = $request->header("Authorization");
-        // $token = trim($token, '\"');
+        // $token = explode(" ", $request->header("Authorization"))[1];
+        $token = $request->header("Authorization");
+        $token = trim($token, '\"');
         $user = DB::table('users')->where("remember_token", $token)->value('status');
-        if($user == 'admin') {
+        if ($user == 'admin') {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }

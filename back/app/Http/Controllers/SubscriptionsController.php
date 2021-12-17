@@ -72,6 +72,12 @@ class SubscriptionsController extends Controller
             $user = JWTAuth::toUser(JWTAuth::getToken());
             $event = Events::find($event_id);
             $organizer_id = $event->organizer_id;
+            $sub_id = DB::table('organizers_subs')->where('organizers_id', $organizer_id)->where('user_id', $user->id)->value('id');
+            if ($sub_id) {
+                return response([
+                    'message' => 'You can\'t subscribe to this organizer again'
+                ], 400);
+            }
             DB::table('organizers_subs')->insert([
                 'organizers_id' => $organizer_id,
                 'user_id' => $user->id,
@@ -117,6 +123,24 @@ class SubscriptionsController extends Controller
             return $events;
         }
     }
+    public function showMyOrganizerSubs(Request $request)
+    {
+        $user = $this->checkLogIn($request);
+        if (!$user) {
+            return response([
+                'message' => 'User is not logged in'
+            ], 401);
+        } else {
+            $user = JWTAuth::toUser(JWTAuth::getToken());
+            $org = [];
+            $organizer_ids = DB::table('organizers_subs')->where('user_id', $user->id)->pluck('organizers_id');
+            foreach ($organizer_ids as $o_id) {
+                $add = DB::table('users')->where('id', $o_id)->get(['id', 'username', 'email', 'status']);
+                array_push($org, $add[0]);
+            }
+            return $org;
+        }
+    }
     public function unsubscribeFromEvent(Request $request, $event_id)
     {
         $user = $this->checkLogIn($request);
@@ -135,6 +159,28 @@ class SubscriptionsController extends Controller
                 $event->delete();
                 return response([
                     'message' => 'You unsubscribed from event'
+                ], 200);
+            }
+        }
+    }
+    public function unsubscribeFromOrganizer(Request $request, $organizer_id)
+    {
+        $user = $this->checkLogIn($request);
+        if (!$user) {
+            return response([
+                'message' => 'User is not logged in'
+            ], 401);
+        } else {
+            $user = JWTAuth::toUser(JWTAuth::getToken());
+            $org = DB::table('organizers_subs')->where('organizers_id', $organizer_id)->where('user_id', $user->id);
+            if (!$org) {
+                return response([
+                    'message' => 'No such subscription'
+                ], 400);
+            } else {
+                $org->delete();
+                return response([
+                    'message' => 'You unsubscribed from organizer'
                 ], 200);
             }
         }
