@@ -1,0 +1,61 @@
+.main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  // use calc just to not overlap content with header 
+  // 100px - header height, just hardcode
+  // min-height: calc(100vh - 100px);
+  gap: 2rem;
+
+  strong {
+    text-transform: uppercase;
+  }
+
+  ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    list-style: none;
+
+    & > * {
+      min-width: 80vw;
+    }
+  }
+
+  .field {
+    outline: 0.1em solid black;
+    padding: 0.5em;
+    margin: 0.5em;
+    border-radius: 0.5em;
+  }
+  
+  .event {
+    .edit_link {
+      color: white;
+      background-color: black;
+      outline: 0.1em solid black;
+      padding: 0.5em;
+      margin: 0.5em;
+      border-radius: 0.5em;
+
+      &:hover {
+        color: black;
+        background-color: white;
+      }
+    }
+  }
+
+  .comments {
+    .comment {
+      outline: 0.1em solid black;
+      padding: 0.5em;
+      margin: 0.5em;
+      border-radius: 0.5em;
+      .comment_field {
+        display: flex;
+      }
+    }
+  }
+}
