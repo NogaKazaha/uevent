@@ -45,7 +45,7 @@ function Register() {
   return (
     <div className={style.register}>
       <Helmet>
-        <title>Sign Up &#8739; La Cronicas</title>
+        <title>Sign Up &#8739; Uevent</title>
       </Helmet>
       <Header />
         <h1>Don't have account? Start working with us now!</h1>

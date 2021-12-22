@@ -22,7 +22,7 @@ class CommentsController extends Controller
     }
     public function showAllForEvent($event_id)
     {
-        $showComment = DB::table('comments')->where('event_id', $event_id)->get();
+        $showComment = DB::table('comments')->where('event_id', $event_id)->join('users', 'users.id', '=', 'comments.user_id')->get(['username', 'title', 'description']);
         return $showComment;
     }
     public function store(Request $request, $event_id)

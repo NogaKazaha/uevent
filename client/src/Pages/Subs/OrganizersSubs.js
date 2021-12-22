@@ -31,7 +31,7 @@ function OrganizersSubs() {
   return (
     <div className={style.events}>
       <Helmet>
-        <title>Events &#8739; La Cronicas</title>
+        <title>Organizer subs &#8739; Uevent</title>
       </Helmet>
       <EventsHeader />
       <h1>Subscribed organizers</h1>

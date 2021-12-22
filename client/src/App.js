@@ -13,6 +13,9 @@ import CreateEvent from './Pages/Events/CreateEvent';
 import EventsSubs from './Pages/Subs/EventsSubs';
 import OrganizersSubs from './Pages/Subs/OrganizersSubs';
 import EditEvent from './Pages/Events/EditEvent';
+import SubedUsers from './Pages/Public/SubedUsers';
+import User from './Pages/Public/User';
+import CreateComment from './Pages/Comments/CreateComment';
 
 function App() {
   return (
@@ -26,11 +29,14 @@ function App() {
         <Route path="/me" exact component={ Settings }/>
         <Route path="/account" exact component={ Public }/>
         <Route path="/events" exact component={ Events }/>
-        <Route path="/event/:id" exact component={ Event }/>
         <Route path="/event/create" exact component={ CreateEvent }/>
         <Route path="/event/subs" exact component={ EventsSubs }/>
+        <Route path="/event/:id" exact component={ Event }/>
         <Route path="/event/edit/:id" exact component={ EditEvent }/>
         <Route path="/organizers/subs" exact component={ OrganizersSubs }/>
+        <Route path="/users/list/:id" exact component={ SubedUsers }/>
+        <Route path="/user/:id" exact component={ User }/>
+        <Route path="/comments/create/:id" exact component={ CreateComment }/>
       </Switch>
     </BrowserRouter>
   );

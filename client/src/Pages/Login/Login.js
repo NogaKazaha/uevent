@@ -48,7 +48,7 @@ function Login() {
   return (
     <div className={style.login}>
       <Helmet>
-        <title>Sign In &#8739; La Cronicas</title>
+        <title>Sign In &#8739; Uevent</title>
       </Helmet>
       <Header />
         <h1>Have an account? Login and continue using our app</h1>

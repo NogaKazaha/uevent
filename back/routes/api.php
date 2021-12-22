@@ -38,6 +38,7 @@ Route::prefix('comments')->group(function () {
 Route::prefix('users')->group(function () {
     Route::get('/show_all', 'App\Http\Controllers\UsersController@index'); // Show all users
     Route::get('/show/{id}', 'App\Http\Controllers\UsersController@show'); // Show user by its id
+    Route::get('/show/organizer/{id}', 'App\Http\Controllers\UsersController@showOrganizer'); // Show user by event id
     Route::patch('/update/{id}', 'App\Http\Controllers\UsersController@update'); // Update user by its id
     Route::post('/delete/{id}', 'App\Http\Controllers\UsersController@destroy'); //Delete user by its id
 });

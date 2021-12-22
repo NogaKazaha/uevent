@@ -6,9 +6,12 @@ import axios from "axios"
 import Cookies from 'js-cookie';
 import style  from '../../Styles/Public.module.scss'
 import EventsHeader from '../../Modules/Header/EventsHeader';
-function Public() {
-  const [user, setUser] = useState([])
+import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
+import SubedUsersList from './SubedUsersList';
+function SubedUsers() {
+  const [users, setUsers] = useState([])
   const history = useHistory()
+  const params = useParams();
   if(Cookies.get('login') == 'false' || !Cookies.get('login')) {
     history.push('/')
   }
@@ -18,29 +21,23 @@ function Public() {
 				"Content-Type": "application/json",
 				Accept: "application/json",
 			},
-			url: `http://127.0.0.1:8000/api/users/show/${Cookies.get('user_id')}`,
+			url: `http://127.0.0.1:8000/api/subs/users/${params.id}`,
 		}
     axios.get(api.url, api.data, {
 			headers: api.headers,
 		})
-    .then((response) => setUser(response.data))
+    .then((response) => setUsers(response.data))
   },[])
   return (
     <div>
       <Helmet>
-        <title>Public Account &#8739; Uevent</title>
+        <title>Subed users &#8739; Uevent</title>
       </Helmet>
       <EventsHeader />
-        <h1>Here you can check your public information</h1>
-        <div className={style.outerinfo}>
-          <div className={style.info}>
-            <span>Username: {user.username}</span>
-            <span>Email: {user.email}</span>
-            <span>Status: {user.status}</span>
-          </div>
-        </div>
-        <span>Want to chage your info? <Link to='/me'>Go to settings</Link></span>
+        <h1>Here you can find list of subed users</h1>
+        <SubedUsersList subs={users} />
+        <span>Want to go back to event? <Link to={`/event/${params.id}`}>Return</Link></span>
     </div>
   );
 }
-export default Public;
+export default SubedUsers;

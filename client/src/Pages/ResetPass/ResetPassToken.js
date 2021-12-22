@@ -43,7 +43,7 @@ function ResetPasswordToken() {
   return (
     <div className={style.reset}>
       <Helmet>
-        <title>Reset Password &#8739; La Cronicas</title>
+        <title>Reset Password &#8739; Uevent</title>
       </Helmet>
       <Header />
         <h1>Prepare new password and input it</h1>

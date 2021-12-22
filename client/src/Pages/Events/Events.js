@@ -30,7 +30,7 @@ function Events() {
   return (
     <div className={style.events}>
       <Helmet>
-        <title>Events &#8739; La Cronicas</title>
+        <title>Events &#8739; Uevent</title>
       </Helmet>
       <EventsHeader />
       <h1>All events</h1>

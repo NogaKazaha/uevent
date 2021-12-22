@@ -42,7 +42,7 @@ function EventsHeader() {
         </div>
       </Link>
       <div>
-        <Link to="/events">Calendars</Link>
+        <Link to="/events">Events</Link>
         <Link to="/event/subs">Event subscriptions</Link>
         <Link to="/organizers/subs">Organizers subscriptions</Link>
         <Link to="/account">Public Account</Link>

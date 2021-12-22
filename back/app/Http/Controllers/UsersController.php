@@ -71,4 +71,10 @@ class UsersController extends Controller
             }
         }
     }
+    public function showOrganizer($id)
+    {
+        $org_id = DB::table('events')->where('id', $id)->value('organizer_id');
+        $showComment = User::find($org_id);
+        return $showComment;
+    }
 }

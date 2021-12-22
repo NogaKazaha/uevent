@@ -125,7 +125,7 @@ function EditEvent() {
   return (
     <div>
       <Helmet>
-        <title>Create new event &#8739; La Cronicas</title>
+        <title>Edit new event &#8739; Uevent</title>
       </Helmet>
       <EventsHeader />
         <h1>Make new event to participate</h1>

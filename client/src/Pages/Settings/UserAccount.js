@@ -45,7 +45,7 @@ function Settings() {
   return (
     <div>
       <Helmet>
-        <title>Settings &#8739; La Cronicas</title>
+        <title>Settings &#8739; Uevent</title>
       </Helmet>
       <EventsHeader />
         <h1>Make new you</h1>
